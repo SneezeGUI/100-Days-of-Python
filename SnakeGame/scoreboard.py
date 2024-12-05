@@ -13,12 +13,12 @@ class Scoreboard(Turtle):
         self.hideturtle()
         self.goto(0, 270)
         self.color("white")
-        self.write(f"Score: {self.score} Highscore: {self.highscore}", move=False, align="center", font=("Arial", 12, "bold"))
+        self.write(f"Score: {self.score}    Highscore: {self.highscore}", move=False, align="center", font=("Arial", 12, "bold"))
     ##Score UP##
     def score_refresh(self):
         self.score += 1
         self.clear()
-        self.write(f"Score: {self.score} Highscore: {self.highscore}", move=False, align="center", font=("Arial", 12, "bold"))
+        self.write(f"Score: {self.score}    Highscore: {self.highscore}", move=False, align="center", font=("Arial", 12, "bold"))
 
 
     def reset(self):
@@ -27,7 +27,7 @@ class Scoreboard(Turtle):
             with open("highscore.txt", mode="w") as file:
                 file.write(f"{self.highscore}")
             self.clear()
-            self.write(f"Score: {self.score} Highscore: {self.highscore}", move=False, align="center", font=("Arial", 12, "bold"))
+            self.write(f"Score: {self.score}    Highscore: {self.highscore}", move=False, align="center", font=("Arial", 12, "bold"))
         self.score = 0
     ## Game Over##
     # def game_over(self):
