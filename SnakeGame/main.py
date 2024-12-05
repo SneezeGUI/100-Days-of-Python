@@ -3,8 +3,7 @@ from snake import Snake
 from food import Food
 from scoreboard import Scoreboard
 import time
-import sys
-import os
+
 
 screen = Screen()
 screen.setup(width=600, height=600)
@@ -37,16 +36,17 @@ while game_on:
         scoreboard.score_refresh()
 
     if snake.head.xcor() > 290 or snake.head.xcor() < -290 or snake.head.ycor() > 290 or snake.head.ycor() < -290:
-        scoreboard.game_over()
-        game_on = False
+        snake.reset()
+        scoreboard.reset()
+
 
 
 
     ## detect tail collision##
     for segment in snake.segments[1:]:
-        # if segment == snake.head:
-        #     pass
+        if segment == snake.head:
+            pass
         if snake.head.distance(segment) < 10:
-            game_on = False
-            scoreboard.game_over()
+            snake.reset()
+            scoreboard.reset()
 screen.exitonclick()
