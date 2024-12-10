@@ -3,19 +3,28 @@ from tkinter import *
 #window and title
 window = Tk()
 window.title('M to KM')
-window.config(padx=20, pady=20)
-window.minsize(width=225, height=150)
+window.config(padx=5, pady=5)
+window.minsize(width=225, height=75)
 
 #entry label
 label = Label(text='Miles')
-label.grid(column=1, row=0)
+label.grid(column=2, row=0)
 
 #entry
 entry = Entry()
-entry.grid(column=0, row =0)
+entry.grid(column=1, row =0)
 
-result = Label(text=f'is equal to ___ Kilometers')
-result.grid(column=0, row=2)
+#result part 1
+result1 = Label(text='is equal to')
+result1.grid(column=0, row= 2)
+#result part 2 RESULTS INT
+result2 = Label(text=f'___')
+result2.grid(column=1, row= 2)
+#result part 3
+result1 = Label(text='KM')
+result1.grid(column=2, row= 2)
+# result = Label(text=f'is equal to ___ Kilometers')
+# result.grid(column=0, row=2)
 
 #Button Calculate Function
 def calculate():
@@ -24,10 +33,10 @@ def calculate():
         return None
     else:
         kilometers = round(miles * 1.60934, 2)
-        result.config(text=f'is equal to {kilometers} Kilometers')
+        result2.config(text=f'{kilometers}')
 #Button
 button = Button(text='Calculate', command=calculate)
-button.grid(column=0, row =3)
+button.grid(column=1, row =3)
 
 
 
