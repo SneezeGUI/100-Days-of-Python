@@ -11,14 +11,15 @@ label = Label(text='Miles')
 label.grid(column=2, row=0)
 
 #entry
-entry = Entry()
+entry = Entry(width=10)
 entry.grid(column=1, row =0)
 
 #result part 1
 result1 = Label(text='is equal to')
 result1.grid(column=0, row= 2)
+result1.config(padx=20)
 #result part 2 RESULTS INT
-result2 = Label(text=f'___')
+result2 = Label(text=f'__________')
 result2.grid(column=1, row= 2)
 #result part 3
 result1 = Label(text='KM')
