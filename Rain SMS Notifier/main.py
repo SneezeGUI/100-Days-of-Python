@@ -1,45 +1,44 @@
 import requests
 import json
 import os
+import time
 
-#D7 API
-SMS_API_KEY = os.environ.get('D7_API_KEY')
-print(SMS_API_KEY)
-url = "https://api.d7networks.com/messages/v1/send"
+TEXTBELT_KEY = os.environ.get('TEXTBELT_API_KEY')
+print(TEXTBELT_KEY)
+def send_sms():
+    # local_sms_server = 'http://127.0.0.1:9090/text',
+    contact_1 = requests.post( 'https://textbelt.com/text',
+                              {'phone': "5555555555",
+                               'message': 'It will probably rain in the next 6 hours... Bring a jacket! 🌧️',
+                               'key': 'TEXTBELT_KEY',
+                               })
+    # success_state = contact_1.json()['success']
+    texbelt_success = contact_1.json()['success']
+    textbelt_balance = contact_1.json()['quotaRemaining']
 
-payload = json.dumps({
-  "messages": [
-    {
-      "channel": "sms",
-      "recipients": [
-        "+12069541504"
-      ],
-      "content": "It's going to rain today, dress accordingly. (⊙＿⊙') ",
-      "msg_type": "text",
-      "data_coding": "text"
-    }
-  ],
-  "message_globals": {
-    "originator": "SignOTP",
-    "report_url": "https://the_url_to_recieve_delivery_report.com"
-  }
-})
-headers = {
-  'Content-Type': 'application/json',
-  'Accept': 'application/json',
-  'Authorization': f'Bearer {SMS_API_KEY}'
-}
-#END D7 API SETUP
+    print(f'TextBelt Success?: {texbelt_success}\nBalance Remaining: {textbelt_balance}')
+    # contact_2 = requests.post('http://127.0.0.1:9090/text',
+    #                           {'number': "5555555555",
+    #                            'message': 'It will probably rain in the next 6 hours... Bring a jacket!',
+    #                            })
+    # print(f'Local SMS Success: {contact_2.json()['success']}')
+    successful= texbelt_success
+    if not successful:
+        print('Trying again in 120s...')
+        time.sleep(120)
+        send_sms()
 
-# response = requests.request("POST", url, headers=headers, data=payload)
-#
-# print(response.text)
+def sleep():
+    print('Waiting 6 hours to update again')
+    time.sleep(21600)#21600 is 6hr
 
 OWM_ENDPOINT = 'https://api.openweathermap.org/data/2.5/forecast'
 API_KEY = os.environ.get('OWM_API_KEY')
-print(API_KEY)
-MY_LAT = 47.75448
-MY_LONG = -121.91477
+# print(API_KEY)
+MY_LAT = os.environ.get('MY_LATITUDE')
+print(MY_LAT)
+MY_LONG = os.environ.get('MY_LONGITUDE')
+print(MY_LONG)
 parameters = {
     'lat':MY_LAT,
     'lon':MY_LONG,
@@ -52,13 +51,16 @@ response.raise_for_status()
 data = response.json()
 forecast_list = data['list']
 
-will_rain = False
-for entry in forecast_list:
-     weather = (entry['weather'])
-     for item in weather:
-         if item['id'] < 700:
-             will_rain=True
-if will_rain:
-    response = requests.request("POST", url, headers=headers, data=payload)
-    print(response.text)
-    # print('it gon rain bitch')
+def check_weather():
+    will_rain = False
+    for entry in forecast_list:
+         weather = (entry['weather'])
+         for item in weather:
+             print(item['id'])
+             if item['id'] < 700:
+                 will_rain=True
+    if will_rain:
+        send_sms()
+        sleep()
+        check_weather()
+check_weather()
