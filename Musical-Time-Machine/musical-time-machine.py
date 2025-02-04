@@ -35,16 +35,17 @@ song_names = [song.getText().strip() for song in song_names_spans] ##Strip speci
 #Loop through all songs and get their spotify URIs
 song_uris = []  ##Empty list to store song uris
 for song in song_names:
+    position = 0
     result = sp.search(q=f'{song}', type='track') ##Search for song
     try:
+        position =+ 1
         uri = result["tracks"]["items"][0]["uri"]  ##get the URI of first matching item
         song_uris.append(uri) #Add it to our list of URIs
+        print(f'Grabbed Song URI {position}/100')
     except IndexError:
         print(f"{song} doesn't exist in Spotify. Skipped.") ##Print if song not found on spotify and continue with next song
-#Ask user to create a playlist or not
-create = input('Press Any Key to Create Playlist... (N to cancel)')
-if create == 'N': #If user entered "N", don't create the playlist and exit program.
-    exit(0)
-else: ##Create private playlist in spotify account of used with song URIs
-    playlist = sp.user_playlist_create(user=user_id, name=f'{date} Billboard 100', public=False)
-    sp.user_playlist_add_tracks(user=user_id ,playlist_id=playlist['id'], tracks=song_uris)
+
+#create playlist and add songs
+playlist = sp.user_playlist_create(user=user_id, name=f'{date} Billboard 100', public=False) #creates playlist
+# sp.user_playlist_add_tracks(user=user_id ,playlist_id=playlist['id'], tracks=song_uris)#add songs to playlist
+sp.playlist_add_items(playlist_id=playlist['id'], items=song_uris)
