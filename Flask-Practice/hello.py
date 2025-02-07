@@ -2,7 +2,31 @@ from flask import Flask
 
 app = Flask(__name__)
 
+def make_bold(function):
+    def wrapper():
+        return "<b>" + function() + "</b>"
+    return wrapper
+
+def make_emphasis(function):
+    def wrapper():
+        return "<em>" + function() + "</em>"
+    return wrapper
+
+def make_underlined(function):
+    def wrapper():
+        return "<u>" + function() + "</u>"
+    return wrapper
+# def make_underlined():
+#
+# def make_emphasis():
+
+
+
+## different routes using the app.decorator
 @app.route("/")
+@make_bold
+@make_emphasis
+@make_underlined
 def hello_world(): ##you can break to a new line with "\" or """ multi line  text """
     return '<h1 style="text-align: center">Hello</h1>' \
     '<p>This is a Paragraph Element.</p>' \
