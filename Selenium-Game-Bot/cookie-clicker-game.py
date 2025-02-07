@@ -51,9 +51,12 @@ while True:
         highest = None
         available_cookies = driver.find_element(By.ID, "cookies").text  # Get current cookies count
         million = 10**6
+        billion = 10**9
         # try: # try to treat the available cookies as a simple number
         if "million" in available_cookies:
             available_cookies = float(available_cookies.split()[0]) * million
+        if 'billion' in available_cookies:
+            available_cookies = float(available_cookies.split()[0]) * billion
         else:
             available_cookies = float(available_cookies.split()[0].replace(',',''))
 
@@ -77,6 +80,7 @@ while True:
                 # print('Enountered Large Number')
                 upgrade_cost = float(upgrade.find_element(By.CLASS_NAME, "price").text.split()[0].replace('million', '')) * million
                 # print(f'upgrade_cost: {upgrade_cost}\n')
+            
             if available_cookies >= upgrade_cost:
                 highest = upgrade
         if highest:
