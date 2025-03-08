@@ -49,3 +49,7 @@ Selenium-Game-Bot/SaveGames/SneezeBakery.txt
 /HigherLower-Flask/.idea
 /Biz-Card-Flask-Site/.idea
 /Day-57-Jinja-Templating-Flask/.idea
+/html-forms/.idea
+/space-whale-spambot/.idea
+space-whale-spambot/.env
+space-whale-spambot/bot.log
